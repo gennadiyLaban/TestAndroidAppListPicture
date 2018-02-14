@@ -2,8 +2,17 @@ package com.example.tagudur.testlistpictureapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.tagudur.model.IDataListener;
+import com.example.tagudur.model.User;
+import com.example.tagudur.model.web.LoadHandler;
+
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class LiastItemsActivity extends Activity {
 
@@ -23,6 +32,27 @@ public class LiastItemsActivity extends Activity {
 
         // присваиваем адаптер списку
         listView.setAdapter(adapter);
+
+        final LoadHandler loadHandler = new LoadHandler();
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                loadHandler.getUserData(new IDataListener() {
+                    @Override
+                    public void onLoadData(List<User> users) {
+                        for (User user: users)
+                            Log.d("LoadHandler", user.getId() + " "
+                                    + user.getFirstName() + " " + user.getLastName());
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+            }
+        });
     }
 
 

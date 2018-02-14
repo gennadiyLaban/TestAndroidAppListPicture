@@ -8,4 +8,5 @@ public interface IErrorDataMassage {
 
     public String getMassage();
 
+
 }
