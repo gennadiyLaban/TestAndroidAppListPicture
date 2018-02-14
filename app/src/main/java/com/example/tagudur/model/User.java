@@ -12,6 +12,7 @@ public class User {
     private String firstName;
     private String lastName;
 
+    private String urlPicture;
     private byte[] picture;
 
 
@@ -20,35 +21,44 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
 
-        picture = new byte[1];
+        this.urlPicture = "";
+        this.picture = new byte[1];
     }
 
     public int getId() {
         return id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public byte[] getPicture() {
-        return picture;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getUrlPicture() {
+        return urlPicture;
+    }
+
+    public void setUrlPicture(String urlPicture) {
+        this.urlPicture = urlPicture;
+    }
+
+    public byte[] getPicture() {
+        return picture;
     }
 
     public void setPicture(byte[] picture) {

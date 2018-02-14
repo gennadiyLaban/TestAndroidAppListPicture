@@ -17,4 +17,6 @@ public class IConstantsWeb {
     public static final String NODE_ID_JSON_USER = "id";
     public static final String NODE_FIRST_NAME_JSON_USER = "first_name";
     public static final String NODE_LAST_NAME_JSON_USER = "last_name";
+
+    public static final String NODE_DATA_JSON_LINKS = "data";
 }

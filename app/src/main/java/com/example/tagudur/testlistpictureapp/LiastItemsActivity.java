@@ -43,12 +43,13 @@ public class LiastItemsActivity extends Activity {
                     public void onLoadData(List<User> users) {
                         for (User user: users)
                             Log.d("LoadHandler", user.getId() + " "
-                                    + user.getFirstName() + " " + user.getLastName());
+                                    + user.getFirstName() + " " + user.getLastName() + " "
+                                    + user.getUrlPicture() + " " + user.getPicture().length);
                     }
 
                     @Override
                     public void onError() {
-
+                        Log.d("LoadHandler", "ERROR");
                     }
                 });
             }
