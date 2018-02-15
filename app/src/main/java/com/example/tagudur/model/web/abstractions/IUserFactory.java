@@ -1,6 +1,6 @@
-package com.example.tagudur.model.web;
+package com.example.tagudur.model.web.abstractions;
 
-import com.example.tagudur.model.User;
+import com.example.tagudur.model.entityes.User;
 
 import java.util.List;
 

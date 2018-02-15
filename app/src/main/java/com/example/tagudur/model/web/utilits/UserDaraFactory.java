@@ -1,6 +1,7 @@
-package com.example.tagudur.model.web;
+package com.example.tagudur.model.web.utilits;
 
-import com.example.tagudur.model.User;
+import com.example.tagudur.model.entityes.User;
+import com.example.tagudur.model.web.abstractions.IUserFactory;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

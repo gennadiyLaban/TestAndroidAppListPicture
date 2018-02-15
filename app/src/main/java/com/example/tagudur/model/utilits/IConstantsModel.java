@@ -1,4 +1,4 @@
-package com.example.tagudur.model;
+package com.example.tagudur.model.utilits;
 
 /**
  * Created by Tagudur on 15.02.2018.

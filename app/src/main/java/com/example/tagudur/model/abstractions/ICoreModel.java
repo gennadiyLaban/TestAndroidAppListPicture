@@ -1,4 +1,7 @@
-package com.example.tagudur.model;
+package com.example.tagudur.model.abstractions;
+
+import com.example.tagudur.model.entityes.User;
+import com.example.tagudur.model.listeners.IChangeDataListener;
 
 import java.util.List;
 

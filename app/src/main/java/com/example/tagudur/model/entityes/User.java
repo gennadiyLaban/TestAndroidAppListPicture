@@ -1,6 +1,4 @@
-package com.example.tagudur.model;
-
-import android.graphics.Bitmap;
+package com.example.tagudur.model.entityes;
 
 /**
  * Created by Tagudur on 14.02.2018.

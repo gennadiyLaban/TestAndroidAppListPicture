@@ -1,5 +1,6 @@
-package com.example.tagudur.model.web;
+package com.example.tagudur.model.web.utilits;
 
+import com.example.tagudur.model.web.abstractions.ILinksFactory;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

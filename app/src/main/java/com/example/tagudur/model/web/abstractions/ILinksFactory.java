@@ -1,4 +1,4 @@
-package com.example.tagudur.model.web;
+package com.example.tagudur.model.web.abstractions;
 
 import java.util.List;
 

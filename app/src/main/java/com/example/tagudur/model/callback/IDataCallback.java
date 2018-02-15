@@ -1,4 +1,6 @@
-package com.example.tagudur.model;
+package com.example.tagudur.model.callback;
+
+import com.example.tagudur.model.entityes.User;
 
 import java.util.List;
 

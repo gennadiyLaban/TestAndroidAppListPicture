@@ -1,4 +1,7 @@
-package com.example.tagudur.model;
+package com.example.tagudur.model.listeners;
+
+import com.example.tagudur.model.abstractions.IErrorDataMassage;
+import com.example.tagudur.model.entityes.User;
 
 import java.util.List;
 

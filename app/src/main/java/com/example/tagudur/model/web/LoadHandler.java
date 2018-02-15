@@ -1,8 +1,13 @@
 package com.example.tagudur.model.web;
 
-import com.example.tagudur.model.IDataCallback;
-import com.example.tagudur.model.IDataRepository;
-import com.example.tagudur.model.User;
+import com.example.tagudur.model.callback.IDataCallback;
+import com.example.tagudur.model.abstractions.IDataRepository;
+import com.example.tagudur.model.entityes.User;
+import com.example.tagudur.model.web.utilits.LinksFactory;
+import com.example.tagudur.model.web.abstractions.ILinksFactory;
+import com.example.tagudur.model.web.abstractions.IUserFactory;
+import com.example.tagudur.model.web.utilits.IConstantsWeb;
+import com.example.tagudur.model.web.utilits.UserDaraFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;

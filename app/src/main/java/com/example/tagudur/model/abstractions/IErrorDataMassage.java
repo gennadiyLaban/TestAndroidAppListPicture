@@ -1,4 +1,4 @@
-package com.example.tagudur.model;
+package com.example.tagudur.model.abstractions;
 
 /**
  * Created by Tagudur on 14.02.2018.

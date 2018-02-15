@@ -7,15 +7,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.tagudur.model.Core;
-import com.example.tagudur.model.IChangeDataListener;
-import com.example.tagudur.model.IDataCallback;
-import com.example.tagudur.model.IErrorDataMassage;
-import com.example.tagudur.model.User;
+import com.example.tagudur.model.listeners.IChangeDataListener;
+import com.example.tagudur.model.abstractions.IErrorDataMassage;
+import com.example.tagudur.model.entityes.User;
 import com.example.tagudur.model.web.LoadHandler;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ListItemsActivity extends Activity {
 
