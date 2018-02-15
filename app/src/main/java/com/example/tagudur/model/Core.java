@@ -3,6 +3,14 @@ package com.example.tagudur.model;
 import android.os.Handler;
 import android.os.Message;
 
+import com.example.tagudur.model.abstractions.IErrorDataMassage;
+import com.example.tagudur.model.utilits.IConstantsModel;
+import com.example.tagudur.model.abstractions.ICoreModel;
+import com.example.tagudur.model.abstractions.IDataRepository;
+import com.example.tagudur.model.callback.IDataCallback;
+import com.example.tagudur.model.entityes.User;
+import com.example.tagudur.model.listeners.IChangeDataListener;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -12,7 +20,7 @@ import java.util.concurrent.Executors;
  * Created by Tagudur on 14.02.2018.
  */
 
-public class Core implements ICoreModel{
+public class Core implements ICoreModel {
     private IDataRepository repository;
     private volatile boolean isUpdateProgress;
 
