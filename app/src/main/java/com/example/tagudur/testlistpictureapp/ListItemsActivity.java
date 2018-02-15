@@ -6,7 +6,10 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.tagudur.model.IDataListener;
+import com.example.tagudur.model.Core;
+import com.example.tagudur.model.IChangeDataListener;
+import com.example.tagudur.model.IDataCallback;
+import com.example.tagudur.model.IErrorDataMassage;
 import com.example.tagudur.model.User;
 import com.example.tagudur.model.web.LoadHandler;
 
@@ -14,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class LiastItemsActivity extends Activity {
+public class ListItemsActivity extends Activity {
 
     String[] names = { "Иван", "Марья", "Петр", "Антон", "Даша", "Борис",
             "Костя", "Игорь", "Анна", "Денис", "Андрей", "Костя", "Игорь", "Анна", "Денис", "Андрей"  };
@@ -33,27 +36,23 @@ public class LiastItemsActivity extends Activity {
         // присваиваем адаптер списку
         listView.setAdapter(adapter);
 
-        final LoadHandler loadHandler = new LoadHandler();
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        service.submit(new Runnable() {
+        Core core = new Core(new LoadHandler());
+        core.updateData();
+        core.registrationChangeDataListener(new IChangeDataListener() {
             @Override
-            public void run() {
-                loadHandler.getUserData(new IDataListener() {
-                    @Override
-                    public void onLoadData(List<User> users) {
-                        for (User user: users)
-                            Log.d("LoadHandler", user.getId() + " "
-                                    + user.getFirstName() + " " + user.getLastName() + " "
-                                    + user.getUrlPicture() + " " + user.getPicture().length);
-                    }
+            public void onDataChanged(List<User> users) {
+                for (User user: users)
+                    Log.d("ListItemActivity",
+                            user.getId() + " " + user.getFirstName() + " " + user.getLastName() + " " +
+                            user.getUrlPicture() + " " + user.getPicture().length);
+            }
 
-                    @Override
-                    public void onError() {
-                        Log.d("LoadHandler", "ERROR");
-                    }
-                });
+            @Override
+            public void onFailed(IErrorDataMassage massage) {
+                Log.d("ListItemActivity", massage.getMassage());
             }
         });
+
     }
 
 

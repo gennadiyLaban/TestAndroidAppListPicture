@@ -1,6 +1,6 @@
 package com.example.tagudur.model.web;
 
-import com.example.tagudur.model.IDataListener;
+import com.example.tagudur.model.IDataCallback;
 import com.example.tagudur.model.IDataRepository;
 import com.example.tagudur.model.User;
 
@@ -25,7 +25,7 @@ public class LoadHandler implements IDataRepository{
     private int codeError = -1;
 
     @Override
-    public void getUserData(IDataListener listener) {
+    public void getUserData(IDataCallback listener) {
         httpClient = new OkHttpClient();
         error = false;
         codeError = -1;

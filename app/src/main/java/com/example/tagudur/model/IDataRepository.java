@@ -6,6 +6,6 @@ package com.example.tagudur.model;
 
 public interface IDataRepository {
 
-    public void getUserData(IDataListener listener);
+    public void getUserData(IDataCallback listener);
 
 }
