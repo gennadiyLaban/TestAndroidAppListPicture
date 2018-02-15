@@ -2,53 +2,68 @@ package com.example.tagudur.testlistpictureapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.tagudur.model.Core;
-import com.example.tagudur.model.listeners.IChangeDataListener;
-import com.example.tagudur.model.abstractions.IErrorDataMassage;
 import com.example.tagudur.model.entityes.User;
 import com.example.tagudur.model.web.LoadHandler;
+import com.example.tagudur.viewmodel.ListUserViewModel;
+import com.example.tagudur.viewmodel.abstractions.IListUserViewModel;
+import com.example.tagudur.viewmodel.entityes.UserViewModel;
+import com.example.tagudur.viewmodel.listeners.IListItemsActionListener;
+import com.example.tagudur.viewmodel.listeners.IListItemsOpenDetailsActivityListener;
+import com.example.tagudur.viewmodel.listeners.IListItemsViewModelListeners;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListItemsActivity extends Activity {
 
-    String[] names = { "Иван", "Марья", "Петр", "Антон", "Даша", "Борис",
-            "Костя", "Игорь", "Анна", "Денис", "Андрей", "Костя", "Игорь", "Анна", "Денис", "Андрей"  };
+    private RecyclerView itemList;
+    private ViewModelListAdapter adapter;
+    private IListItemsActionListener actionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liast_items);
 
-        ListView listView = (ListView) findViewById(R.id.lv_list_items_liactivity);
-
-        // создаем адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, names);
-
-        // присваиваем адаптер списку
-        listView.setAdapter(adapter);
-
         Core core = new Core(new LoadHandler());
-        core.updateData();
-        core.registrationChangeDataListener(new IChangeDataListener() {
+        IListUserViewModel viewModel = new ListUserViewModel(core);
+        actionListener = viewModel.getActionListener();
+        viewModel.registrateOpenDetailsActivityListener(new IListItemsOpenDetailsActivityListener() {
             @Override
-            public void onDataChanged(List<User> users) {
-                for (User user: users)
-                    Log.d("ListItemActivity",
-                            user.getId() + " " + user.getFirstName() + " " + user.getLastName() + " " +
-                            user.getUrlPicture() + " " + user.getPicture().length);
-            }
-
-            @Override
-            public void onFailed(IErrorDataMassage massage) {
-                Log.d("ListItemActivity", massage.getMassage());
+            public void onOpenDetailActivity(int user_id) {
+                Log.d("ListItemsActivity", "onOpenDetailActivity:user_id:" + user_id);
             }
         });
+
+        itemList = (RecyclerView)findViewById(R.id.rv_list_items);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        itemList.setLayoutManager(llm);
+        adapter = new ViewModelListAdapter(new ArrayList<UserViewModel>(), new OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int user_id) {
+                actionListener.onItemClick(user_id);
+            }
+        });
+
+        viewModel.registrateListVMListeners(new IListItemsViewModelListeners() {
+            @Override
+            public void onDataChanged(List<UserViewModel> users) {
+                adapter.setData(users);
+                itemList.setAdapter(adapter);
+            }
+
+            @Override
+            public void onDataFailed(String message) {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+            }
+        });
+
 
     }
 

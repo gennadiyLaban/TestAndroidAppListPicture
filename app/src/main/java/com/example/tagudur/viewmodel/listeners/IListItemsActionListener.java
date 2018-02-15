@@ -5,4 +5,11 @@ package com.example.tagudur.viewmodel.listeners;
  */
 
 public interface IListItemsActionListener {
+
+    public void onItemClick(int id);
+
+    public void onFlipScreen();
+
+    public void onDestroy();
+
 }

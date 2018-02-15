@@ -13,7 +13,9 @@ public interface ICoreModel {
 
     public List<User> getUserList();
 
-    public void registrationChangeDataListener(IChangeDataListener changeDataListener);
+    public int registrationChangeDataListener(IChangeDataListener changeDataListener);
+
+    public void unregistrationChangeDataListener(int id);
 
     public void updateData();
 

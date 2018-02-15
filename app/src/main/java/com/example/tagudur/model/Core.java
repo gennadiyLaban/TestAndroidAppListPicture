@@ -2,6 +2,7 @@ package com.example.tagudur.model;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.example.tagudur.model.abstractions.IErrorDataMassage;
 import com.example.tagudur.model.utilits.IConstantsModel;
@@ -12,7 +13,9 @@ import com.example.tagudur.model.entityes.User;
 import com.example.tagudur.model.listeners.IChangeDataListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,16 +24,18 @@ import java.util.concurrent.Executors;
  */
 
 public class Core implements ICoreModel {
+    private static int baseId = 1;
+
     private IDataRepository repository;
     private volatile boolean isUpdateProgress;
 
     private List<User> users;
-    private List<IChangeDataListener> listeners;
+    private Map<Integer, IChangeDataListener> listeners;
 
     public Core(IDataRepository repository) {
         this.repository = repository;
         this.users = new ArrayList<>();
-        this.listeners = new ArrayList<>();
+        this.listeners = new HashMap<>();
         this.isUpdateProgress = false;
     }
 
@@ -40,14 +45,26 @@ public class Core implements ICoreModel {
     }
 
     @Override
-    public void registrationChangeDataListener(IChangeDataListener changeDataListener) {
-        listeners.add(changeDataListener);
+    public int registrationChangeDataListener(IChangeDataListener changeDataListener) {
+        int id = baseId++;
+        listeners.put(id, changeDataListener);
         if(!isUpdateProgress && users.size() > 0) {
             changeDataListener.onDataChanged(users);
         } else {
             if(!isUpdateProgress) {
                 updateData();
             }
+        }
+        return id;
+    }
+
+    @Override
+    public void unregistrationChangeDataListener(int id) {
+        IChangeDataListener listener = listeners.remove(id);
+        if(listener != null) {
+            Log.d("Core", "Unregistration ChangeDataListener successful");
+        } else {
+            Log.d("Core", "Unregistration ChangeDataListener fail");
         }
     }
 
@@ -96,12 +113,12 @@ public class Core implements ICoreModel {
     }
 
     private void signalUpdatedData() {
-        for (IChangeDataListener listener: listeners)
+        for (IChangeDataListener listener: listeners.values())
             listener.onDataChanged(users);
     }
 
     private void signalFailUpdateData() {
-        for (IChangeDataListener listener: listeners)
+        for (IChangeDataListener listener: listeners.values())
             listener.onFailed(new IErrorDataMassage() {
                 @Override
                 public String getMassage() {
