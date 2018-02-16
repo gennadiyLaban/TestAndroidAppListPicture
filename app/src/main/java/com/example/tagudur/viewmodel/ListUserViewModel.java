@@ -6,7 +6,7 @@ import com.example.tagudur.model.abstractions.ICoreModel;
 import com.example.tagudur.model.abstractions.IErrorDataMassage;
 import com.example.tagudur.model.entityes.User;
 import com.example.tagudur.model.listeners.IChangeDataListener;
-import com.example.tagudur.viewmodel.abstractions.IListUserViewModel;
+import com.example.tagudur.viewmodel.abstractions.IListUserVM;
 import com.example.tagudur.viewmodel.abstractions.IUserDataConverter;
 import com.example.tagudur.viewmodel.entityes.UserViewModel;
 import com.example.tagudur.viewmodel.listeners.IListItemsActionListener;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Tagudur on 15.02.2018.
  */
 
-public class ListUserViewModel implements IListUserViewModel, IListItemsActionListener {
+public class ListUserViewModel implements IListUserVM, IListItemsActionListener {
     private int idDataListener;
     private ICoreModel coreModel;
     private IUserDataConverter converter;
@@ -58,7 +58,7 @@ public class ListUserViewModel implements IListUserViewModel, IListItemsActionLi
         });
     }
 
-    // IListUserViewModel
+    // IListUserVM
     @Override
     public List<UserViewModel> getListUsers() {
         return usersVM;
