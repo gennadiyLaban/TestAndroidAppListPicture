@@ -1,6 +1,6 @@
 package com.example.tagudur.viewmodel.listeners;
 
-import com.example.tagudur.viewmodel.entityes.UserViewModel;
+import com.example.tagudur.viewmodel.entityes.UserVM;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import java.util.List;
  * Created by Tagudur on 15.02.2018.
  */
 
-public interface IListItemsViewModelListeners {
+public interface IUsersScreenVMlListeners {
 
-    public void onDataChanged(List<UserViewModel> users);
+    public void onDataChanged(List<UserVM> users);
 
     public void onDataFailed(String message);
 

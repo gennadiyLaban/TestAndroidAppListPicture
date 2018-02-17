@@ -2,23 +2,28 @@ package com.example.tagudur.testlistpictureapp.aplication;
 
 import android.app.Application;
 
+import com.example.tagudur.builders.DetailsUserVMFactory;
 import com.example.tagudur.builders.ModelFactory;
 import com.example.tagudur.builders.VModelScreenFactory;
-import com.example.tagudur.builders.abstractions.IListVMRepository;
+import com.example.tagudur.builders.abstractions.IDetailsUserVMFactory;
+import com.example.tagudur.builders.abstractions.IVMRepository;
 import com.example.tagudur.builders.abstractions.IModelFactory;
-import com.example.tagudur.builders.abstractions.IVMListScreenFactory;
+import com.example.tagudur.builders.abstractions.IUsersScreenVMFactory;
 import com.example.tagudur.model.abstractions.ICoreModel;
 import com.example.tagudur.builders.abstractions.IModelRepository;
-import com.example.tagudur.viewmodel.abstractions.IListUserVM;
+import com.example.tagudur.viewmodel.DetailsUserVM;
+import com.example.tagudur.viewmodel.abstractions.IDetailsUserVM;
+import com.example.tagudur.viewmodel.abstractions.IUsersScreenVM;
 
 /**
  * Created by Tagudur on 15.02.2018.
  */
 
-public class CustomApplication extends Application implements IModelRepository, IListVMRepository {
+public class CustomApplication extends Application implements IModelRepository, IVMRepository {
 
     private ICoreModel coreModel = null;
-    private IListUserVM listVModel = null;
+    private IUsersScreenVM listVModel = null;
+    private IDetailsUserVM detailsUserVM = null;
 
     @Override
     public void onCreate() {
@@ -39,11 +44,19 @@ public class CustomApplication extends Application implements IModelRepository, 
     }
 
     @Override
-    public IListUserVM getListUserVM() {
+    public IUsersScreenVM getListUserVM() {
         if(listVModel == null) {
             initializeListVModel();
         }
         return listVModel;
+    }
+
+    @Override
+    public IDetailsUserVM getDetailsUserVm(int userId) {
+        if(detailsUserVM == null || detailsUserVM.getUserId() != userId) {
+            initializeDetailVM(userId);
+        }
+        return detailsUserVM;
     }
 
     private void initializeModel() {
@@ -52,7 +65,12 @@ public class CustomApplication extends Application implements IModelRepository, 
     }
 
     private void initializeListVModel() {
-        IVMListScreenFactory factory = new VModelScreenFactory();
-        listVModel = factory.getInstanceListVM(getModel());
+        IUsersScreenVMFactory factory = new VModelScreenFactory();
+        listVModel = factory.getInstanceUsersScreenVM(getModel());
+    }
+
+    private void initializeDetailVM(int userId) {
+        IDetailsUserVMFactory factory = new DetailsUserVMFactory();
+        detailsUserVM = factory.getInstanceDetailsVM(getModel(), userId);
     }
 }

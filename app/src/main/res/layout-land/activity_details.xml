@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.tagudur.testlistpictureapp.DetailsActivity">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:id="@+id/iv_picture_user_details"
+        android:src="@mipmap/ic_launcher"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toLeftOf="@+id/ll_tv_user_details"
+        app:layout_constraintVertical_weight="1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+
+        android:id="@+id/ll_tv_user_details"
+        android:layout_marginTop="@dimen/margin_top_ll_details"
+        android:layout_marginBottom="@dimen/margin_bottom_ll_details"
+        android:layout_marginRight="@dimen/margin_right_ll_details"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/iv_picture_user_details"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_weight="1.4">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/tv_name_user_details"
+            android:text="@string/btn_update_list_act_text"
+            android:gravity="center"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/tv_url_user_details"
+            android:text="@string/btn_update_list_act_text"
+            android:gravity="center_vertical"
+            android:textSize="25sp"/>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

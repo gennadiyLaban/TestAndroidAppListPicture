@@ -6,12 +6,12 @@ import com.example.tagudur.model.abstractions.ICoreModel;
 import com.example.tagudur.model.abstractions.IErrorDataMassage;
 import com.example.tagudur.model.entityes.User;
 import com.example.tagudur.model.listeners.IChangeDataListener;
-import com.example.tagudur.viewmodel.abstractions.IListUserVM;
+import com.example.tagudur.viewmodel.abstractions.IUsersScreenVM;
 import com.example.tagudur.viewmodel.abstractions.IUserDataConverter;
-import com.example.tagudur.viewmodel.entityes.UserViewModel;
-import com.example.tagudur.viewmodel.listeners.IListItemsActionListener;
+import com.example.tagudur.viewmodel.entityes.UserVM;
+import com.example.tagudur.viewmodel.listeners.IUsersScreenActionListener;
 import com.example.tagudur.viewmodel.listeners.IListItemsOpenDetailsActivityListener;
-import com.example.tagudur.viewmodel.listeners.IListItemsViewModelListeners;
+import com.example.tagudur.viewmodel.listeners.IUsersScreenVMlListeners;
 import com.example.tagudur.viewmodel.utiltts.UserDataConverter;
 
 import java.util.ArrayList;
@@ -21,16 +21,15 @@ import java.util.List;
  * Created by Tagudur on 15.02.2018.
  */
 
-public class ListUserViewModel implements IListUserVM, IListItemsActionListener {
+public class ListUserViewModel implements IUsersScreenVM, IUsersScreenActionListener {
     private int idDataListener;
     private ICoreModel coreModel;
     private IUserDataConverter converter;
 
-    private List<UserViewModel> usersVM;
-    private IListItemsViewModelListeners dataChangeListener;
+    private List<UserVM> usersVM;
+    private IUsersScreenVMlListeners dataChangeListener;
     private IListItemsOpenDetailsActivityListener openDetailsListener;
 
-    private boolean isFlipingScreen;
     private boolean isUpdateProcess;
 
     public ListUserViewModel(ICoreModel model) {
@@ -40,7 +39,7 @@ public class ListUserViewModel implements IListUserVM, IListItemsActionListener 
 
         isUpdateProcess = true;
         // todo: move out from constructor
-        this.idDataListener = coreModel.registrationChangeDataListener(new IChangeDataListener() {
+        this.idDataListener = coreModel.bindChangeUserListener(new IChangeDataListener() {
             @Override
             public void onDataChanged(List<User> users) {
                 // todo: in other thread
@@ -58,15 +57,14 @@ public class ListUserViewModel implements IListUserVM, IListItemsActionListener 
         });
     }
 
-    // IListUserVM
+    // IUsersScreenVM
     @Override
-    public List<UserViewModel> getListUsers() {
+    public List<UserVM> getListUsers() {
         return usersVM;
     }
 
     @Override
-    public void registrateListVMListeners(IListItemsViewModelListeners listener) {
-        this.isFlipingScreen = false;
+    public void registrateVMlListeners(IUsersScreenVMlListeners listener) {
         this.dataChangeListener = listener;
         if(!isUpdateProcess) {
             listener.onDataChanged(usersVM);
@@ -79,41 +77,30 @@ public class ListUserViewModel implements IListUserVM, IListItemsActionListener 
     }
 
     @Override
-    public IListItemsActionListener getActionListener() {
+    public IUsersScreenActionListener getActionListener() {
         return this;
     }
 
     @Override
-    public void registrateOpenDetailsActivityListener(IListItemsOpenDetailsActivityListener listener) {
-        this.isFlipingScreen = false;
+    public void registrateOpenDetailsListener(IListItemsOpenDetailsActivityListener listener) {
         this.openDetailsListener = listener;
     }
 
     @Override
-    public void unregistrateOpenDetailsActivityListener() {
+    public void unregistrateOpenDetailsListener() {
         this.openDetailsListener = null;
     }
 
-    // IListItemsActionListener
+    // IUsersScreenActionListener
     @Override
     public void onItemClick(int id) {
         notifyAllListenersOpenDetails(id);
     }
 
     @Override
-    public void onFlipScreen() {
-        isFlipingScreen = true;
-    }
-
-    @Override
-    public void onDestroy() {
-        unregistrateOpenDetailsActivityListener();
+    public void onStop() {
+        unregistrateOpenDetailsListener();
         unregitrateVMListener();
-
-        if(!isFlipingScreen) {
-            // todo: remove link from repository
-            coreModel.unregistrationChangeDataListener(idDataListener);
-        }
     }
 
 

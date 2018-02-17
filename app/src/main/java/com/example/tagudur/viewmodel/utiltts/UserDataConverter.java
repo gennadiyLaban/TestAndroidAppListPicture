@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 
 import com.example.tagudur.model.entityes.User;
 import com.example.tagudur.viewmodel.abstractions.IUserDataConverter;
-import com.example.tagudur.viewmodel.entityes.UserViewModel;
+import com.example.tagudur.viewmodel.entityes.UserVM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +17,20 @@ import java.util.List;
 public class UserDataConverter implements IUserDataConverter {
 
     @Override
-    public List<UserViewModel> convertUserDataList(List<User> users) {
-        List<UserViewModel> userVMlList = new ArrayList<>(users.size() + 1);
+    public List<UserVM> convertUserDataList(List<User> users) {
+        List<UserVM> userVMlList = new ArrayList<>(users.size() + 1);
         for (User user: users) {
-            UserViewModel userVM = convertUserData(user);
+            UserVM userVM = convertUserData(user);
             userVMlList.add(userVM);
         }
         return userVMlList;
     }
 
     @Override
-    public UserViewModel convertUserData(User user) {
+    public UserVM convertUserData(User user) {
         Bitmap picture = BitmapFactory.decodeByteArray(user.getPicture(), 0,
                 user.getPicture().length);
-        UserViewModel userVM = new UserViewModel(user.getId(), user.getFirstName(), user.getLastName(),
+        UserVM userVM = new UserVM(user.getId(), user.getFirstName(), user.getLastName(),
                 user.getUrlPicture(), picture);
         return userVM;
     }

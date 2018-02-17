@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="height_user_item">75dp</dimen>
+    <dimen name="margin_top_iv_details">8dp</dimen>
+    <dimen name="margin_left_ll_details">8dp</dimen>
+    <dimen name="margin_right_ll_details">8dp</dimen>
+    <dimen name="margin_top_ll_details">8dp</dimen>
+    <dimen name="margin_bottom_ll_details">8dp</dimen>
 </resources>

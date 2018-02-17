@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
  * Created by Tagudur on 15.02.2018.
  */
 
-public class UserViewModel {
+public class UserVM {
 
     private int id;
     private String firstName;
@@ -16,8 +16,8 @@ public class UserViewModel {
     private Bitmap picture;
 
 
-    public UserViewModel(int id, String firstName,
-                         String lastName, String urlPicture, Bitmap picture) {
+    public UserVM(int id, String firstName,
+                  String lastName, String urlPicture, Bitmap picture) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
