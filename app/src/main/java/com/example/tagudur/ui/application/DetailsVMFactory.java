@@ -9,6 +9,6 @@ import com.example.tagudur.presenters.users.details.IDetailsUserVM;
 
 public interface DetailsVMFactory {
 
-    public IDetailsUserVM getInstanceDetailsVM(UsersInteractor coreModel, int user_id);
+    public IDetailsUserVM getInstanceDetailsVM(UsersInteractor usersInteractor, int user_id);
 
 }

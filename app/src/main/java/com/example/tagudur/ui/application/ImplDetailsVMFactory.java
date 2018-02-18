@@ -11,8 +11,8 @@ import com.example.tagudur.presenters.users.details.IDetailsUserVM;
 public class ImplDetailsVMFactory implements DetailsVMFactory {
 
     @Override
-    public IDetailsUserVM getInstanceDetailsVM(UsersInteractor coreModel, int user_id) {
-        IDetailsUserVM detailsUserVM = new ImplDetailsUserVM(coreModel, user_id);
+    public IDetailsUserVM getInstanceDetailsVM(UsersInteractor usersInteractor, int user_id) {
+        IDetailsUserVM detailsUserVM = new ImplDetailsUserVM(usersInteractor, user_id);
         return detailsUserVM;
     }
 }

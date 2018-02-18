@@ -10,6 +10,8 @@ import com.example.tagudur.presenters.users.UserVM;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Tagudur on 15.02.2018.
@@ -25,6 +27,7 @@ public class UserListViewModel implements IUsersScreenVM, IUsersScreenActionList
     private OpenDetailsListener openDetailsListener;
 
     private boolean isUpdateProcess;
+    private ExecutorService executor = Executors.newCachedThreadPool();
 
     public UserListViewModel(UsersInteractor model) {
         this.coreModel = model;
@@ -34,11 +37,13 @@ public class UserListViewModel implements IUsersScreenVM, IUsersScreenActionList
         isUpdateProcess = true;
         this.idDataListener = coreModel.bindChangeUserListener(new ChangeListUserListener() {
             @Override
-            public void onDataChanged(List<User> users) {
-                // todo: in other thread
-                usersVM = converter.convertUserDataList(users);
-                isUpdateProcess = false;
-                notifyAllListenersDataChanged();
+            public void onDataChanged(final List<User> users) {
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateData(users);
+                    }
+                });
             }
 
             @Override
@@ -113,6 +118,12 @@ public class UserListViewModel implements IUsersScreenVM, IUsersScreenActionList
     private void notifyAllListenersOpenDetails(int id) {
         if(this.openDetailsListener != null)
             this.openDetailsListener.onOpenDetailActivity(id);
+    }
+
+    private void updateData(List<User> users) {
+        usersVM = converter.convertUserDataList(users);
+        isUpdateProcess = false;
+        notifyAllListenersDataChanged();
     }
 
 }

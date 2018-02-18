@@ -9,7 +9,7 @@ import com.example.tagudur.presenters.users.list.IUsersScreenVM;
 
 public interface VMRepository {
 
-    public IUsersScreenVM getListUserVM();
+    public IUsersScreenVM getUsersScreenVM();
 
     public IDetailsUserVM getDetailsUserVm(int user_id);
 

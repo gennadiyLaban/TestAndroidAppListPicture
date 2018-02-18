@@ -8,12 +8,15 @@ import com.example.tagudur.model.users.ErrorMassage;
 import com.example.tagudur.model.users.User;
 import com.example.tagudur.presenters.users.UserVM;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * Created by Tagudur on 17.02.2018.
  */
 
 public class ImplDetailsUserVM implements IDetailsUserVM, IDetailsScreenActionListener{
-    private UsersInteractor coreModel;
+    private UsersInteractor usersInteractor;
     private UserDataConverter converter;
 
     private int userId;
@@ -22,24 +25,28 @@ public class ImplDetailsUserVM implements IDetailsUserVM, IDetailsScreenActionLi
     private IDetailsScreenVMListeners dataChangeListener;
 
     private boolean isUpdateProcess;
+    private ExecutorService executor = Executors.newCachedThreadPool();
 
-    public ImplDetailsUserVM(UsersInteractor coreModel, final int user_id) {
-        this.coreModel = coreModel;
+    public ImplDetailsUserVM(UsersInteractor usersInteractor, final int user_id) {
+        this.usersInteractor = usersInteractor;
         this.converter = new UserConverter();
         this.userId = user_id;
 
         isUpdateProcess = true;
-        this.coreModel.bindChangeUserListener(new ChangeUserListener() {
+        this.usersInteractor.bindChangeUserListener(new ChangeUserListener() {
             @Override
             public int getUserId() {
                 return userId;
             }
 
             @Override
-            public void onDataChanged(User user) {
-                userVM = converter.convertUserData(user);
-                isUpdateProcess = false;
-                notifyDataChanged();
+            public void onDataChanged(final User user) {
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateData(user);
+                    }
+                });
             }
 
             @Override
@@ -94,5 +101,11 @@ public class ImplDetailsUserVM implements IDetailsUserVM, IDetailsScreenActionLi
         if(dataChangeListener != null) {
             dataChangeListener.onDataFailed(message);
         }
+    }
+
+    private void updateData(User user) {
+        userVM = converter.convertUserData(user);
+        isUpdateProcess = false;
+        notifyDataChanged();
     }
 }

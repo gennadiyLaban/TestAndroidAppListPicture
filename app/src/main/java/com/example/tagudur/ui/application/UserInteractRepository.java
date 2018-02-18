@@ -8,6 +8,6 @@ import com.example.tagudur.model.users.UsersInteractor;
 
 public interface UserInteractRepository {
 
-    public UsersInteractor getModel();
+    public UsersInteractor getUsersInteractor();
 
 }

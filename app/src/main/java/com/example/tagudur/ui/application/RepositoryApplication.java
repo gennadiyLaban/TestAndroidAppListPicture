@@ -12,32 +12,39 @@ import com.example.tagudur.presenters.users.list.IUsersScreenVM;
 
 public class RepositoryApplication extends Application implements UserInteractRepository, VMRepository {
 
-    private UsersInteractor coreModel = null;
+    private UsersInteractor usersInteractor = null;
     private IUsersScreenVM listVModel = null;
     private IDetailsUserVM detailsUserVM = null;
+
+    private DetailsVMFactory detailsVMFactory = null;
+    private UsersScreenVMFactory usersScreenVMFactory = null;
+
+    private final Object lockDetailsVMFactory = new Object();
+    private final Object lockUserScreenVMFactory = new Object();
+    private boolean isSynch = true;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initializeModel();
-        initializeListVModel();
+        initializeUserInteractor();
+        initializeUserScreenVM();
     }
 
 
 
 
     @Override
-    public UsersInteractor getModel() {
-        if(coreModel == null) {
-            initializeModel();
+    public UsersInteractor getUsersInteractor() {
+        if(usersInteractor == null) {
+            initializeUserInteractor();
         }
-        return coreModel;
+        return usersInteractor;
     }
 
     @Override
-    public IUsersScreenVM getListUserVM() {
+    public IUsersScreenVM getUsersScreenVM() {
         if(listVModel == null) {
-            initializeListVModel();
+            initializeUserScreenVM();
         }
         return listVModel;
     }
@@ -50,18 +57,30 @@ public class RepositoryApplication extends Application implements UserInteractRe
         return detailsUserVM;
     }
 
-    private void initializeModel() {
+    private void initializeUserInteractor() {
         UserInteractFactory modelFactory = new ImplUserInteractFactory();
-        coreModel = modelFactory.getInstanceModel();
+        usersInteractor = modelFactory.getInstanceModel();
     }
 
-    private void initializeListVModel() {
-        UsersScreenVMFactory factory = new ImplUsersScreenVMFactory();
-        listVModel = factory.getInstanceUsersScreenVM(getModel());
+    private void initializeUserScreenVM() {
+        if(usersScreenVMFactory == null) {
+            synchronized (lockUserScreenVMFactory) {
+                if (usersScreenVMFactory == null) {
+                    usersScreenVMFactory = new ImplUsersScreenVMFactory();
+                }
+            }
+        }
+        listVModel = usersScreenVMFactory.getInstanceUsersScreenVM(getUsersInteractor());
     }
 
     private void initializeDetailVM(int userId) {
-        DetailsVMFactory factory = new ImplDetailsVMFactory();
-        detailsUserVM = factory.getInstanceDetailsVM(getModel(), userId);
+        if(detailsVMFactory == null) {
+            synchronized (lockDetailsVMFactory) {
+                if (detailsVMFactory == null) {
+                    detailsVMFactory = new ImplDetailsVMFactory();
+                }
+            }
+        }
+        detailsUserVM = detailsVMFactory.getInstanceDetailsVM(getUsersInteractor(), userId);
     }
 }

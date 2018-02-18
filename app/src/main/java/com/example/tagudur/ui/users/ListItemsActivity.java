@@ -43,7 +43,7 @@ public class ListItemsActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        IUsersScreenVM screenVM = vmRepository.getListUserVM();
+        IUsersScreenVM screenVM = vmRepository.getUsersScreenVM();
         actionListener = screenVM.getActionListener();
         adapter = initializeAdapter(new ArrayList<UserVM>(), actionListener);
 
