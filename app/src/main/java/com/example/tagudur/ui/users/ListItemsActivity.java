@@ -88,15 +88,28 @@ public class ListItemsActivity extends Activity {
     private void registrateUsersScreenVMlListeners(IUsersScreenVM screenVM) {
         screenVM.registrateVMlListeners(new IUsersScreenVMlListeners() {
             @Override
-            public void onDataChanged(List<UserVM> users) {
-                adapter.setData(users);
-                itemList.setAdapter(adapter);
+            public void onDataChanged(final List<UserVM> users) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateData(users);
+                    }
+                });
             }
 
             @Override
             public void onDataFailed(String message) {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                updateDataFail(message);
             }
         });
+    }
+
+    private void updateData(List<UserVM> users) {
+        adapter.setData(users);
+        itemList.setAdapter(adapter);
+    }
+
+    private void updateDataFail(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

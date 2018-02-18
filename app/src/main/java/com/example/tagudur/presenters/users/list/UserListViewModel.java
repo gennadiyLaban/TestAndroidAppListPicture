@@ -32,7 +32,6 @@ public class UserListViewModel implements IUsersScreenVM, IUsersScreenActionList
         this.converter = new UserConverter();
 
         isUpdateProcess = true;
-        // todo: move out from constructor
         this.idDataListener = coreModel.bindChangeUserListener(new ChangeListUserListener() {
             @Override
             public void onDataChanged(List<User> users) {

@@ -2,6 +2,7 @@ package com.example.tagudur.ui.details;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,20 +63,38 @@ public class DetailsActivity extends Activity {
         vmRepository = (VMRepository) getApplication();
     }
 
-    private void registrateDetailsVMListener(IDetailsUserVM detailsUserVM) {
+    private void registrateDetailsVMListener(final IDetailsUserVM detailsUserVM) {
         detailsUserVM.registrateVMlListeners(new IDetailsScreenVMListeners() {
             @Override
-            public void onDataChanged(UserVM user) {
-                Picasso.with(DetailsActivity.this).load(user.getUrlPicture())
-                        .placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(imageView);
-                name.setText(user.getLastName() + " " + user.getFirstName());
-                url.setText(user.getUrlPicture());
+            public void onDataChanged(final UserVM user) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateData(user);
+                    }
+                });
             }
 
             @Override
-            public void onDataFailed(String message) {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            public void onDataFailed(final String message) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dataUpdateFail(message);
+                    }
+                });
             }
         });
+    }
+
+    private void updateData(UserVM user) {
+        Picasso.with(DetailsActivity.this).load(user.getUrlPicture())
+                .placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(imageView);
+        name.setText(user.getLastName() + " " + user.getFirstName());
+        url.setText(user.getUrlPicture());
+    }
+
+    private void dataUpdateFail(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
