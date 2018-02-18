@@ -26,6 +26,8 @@ public class CacheUsersInteractor implements UsersInteractor {
     private Map<Integer, ChangeListUserListener> dataListeners;
     private Map<Integer, ChangeUserListener> userListeners;
 
+    private  ExecutorService executor = Executors.newSingleThreadExecutor();
+
     public CacheUsersInteractor(UserRepository repository) {
         this.repository = repository;
         this.users = new ArrayList<>();
@@ -87,13 +89,12 @@ public class CacheUsersInteractor implements UsersInteractor {
         if(isUpdateProgress) {
             return;
         }
-        ExecutorService service = Executors.newSingleThreadExecutor();
 
         Handler handler = getSignalHandler();
         final GetUserCallback callback = getDataCallback(handler);
 
         isUpdateProgress = true;
-        service.submit(new Runnable() {
+        executor.submit(new Runnable() {
             @Override
             public void run() {
                 repository.getUserData(callback);

@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -20,47 +25,50 @@ import okhttp3.Response;
 
 public class HttpUsersRepository implements UserRepository {
     private OkHttpClient httpClient;
-
-    private boolean error = false;
-    private int codeError = -1;
+    private ExecutorService executor = Executors.newFixedThreadPool(42);
 
     @Override
-    public void getUserData(GetUserCallback listener) {
+    public void getUserData(final GetUserCallback listener) {
         if(httpClient == null) {
             httpClient = new OkHttpClient();
         }
-        error = false;
-        codeError = -1;
 
-        List<User> userList = new ArrayList<>();
         try {
-            userList = loadUserData();
-            if(error){
+            Future<ApiListResponse<User>> futureUsers = executor.submit(new Callable<ApiListResponse<User>>() {
+                @Override
+                public ApiListResponse<User> call() throws Exception {
+                    ApiListResponse<User> response = loadUserData();
+                    return response;
+                }
+            });
+
+            Future<ApiListResponse<String>> futureLinks = executor.submit(new Callable<ApiListResponse<String>>() {
+                @Override
+                public ApiListResponse<String> call() throws Exception {
+                    ApiListResponse<String> response = loadUrlListImages();
+                    return response;
+                }
+            });
+            ApiListResponse<String> responseLinks = futureLinks.get();
+            ApiListResponse<User> responseUserData = futureUsers.get();
+
+            if(responseLinks.result == ApiListResponse.Result.ERROR ||
+                    responseUserData.result == ApiListResponse.Result.ERROR) {
                 listener.onError();
                 return;
+            } else {
+                listener.onLoadData(uniteUserAndLinks(responseUserData.list, responseLinks.list));
             }
 
-            List<String> linksList = loadUrlListImages();
-            if(error){
-                listener.onError();
-                return;
-            }
-
-            userList = uniteUserAndLinks(userList, linksList);
-            if(error){
-                listener.onError();
-                return;
-            }
-        } catch (IOException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
-            listener.onError();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-
-        listener.onLoadData(userList);
     }
 
 
-    private List<User> loadUserData() throws IOException {
+    private ApiListResponse<User> loadUserData() throws IOException {
         List<User> users = new ArrayList<>(ConstantsWeb.DEFUALT_COUNT_OF_TOTAL_USERS);
         Request.Builder builder = new Request.Builder();
         UserMapper userFactory = JsonUserMapper.getInstance();
@@ -69,50 +77,35 @@ public class HttpUsersRepository implements UserRepository {
             Request request = builder.url(ConstantsWeb.URL_LIST_USER_DATA_ON_PAGE_N + i)
                     .build();
             Response response = executeRequest(request);
-            if(error)
-                return users;
+            if(response.code() < 200 || response.code() >= 300) {
+                return new ApiListResponse<User>(ApiListResponse.Result.ERROR, null);
+            }
 
             String json = response.body().string();
             List<User> usersPerPage = userFactory.parseJsonUsersData(json);
             users.addAll(usersPerPage);
         }
 
-        return users;
+        return new ApiListResponse<User>(ApiListResponse.Result.SUCCESS, users);
     }
 
     // todo: make request from echo server
-    private List<String> loadUrlListImages() throws IOException {
+    private ApiListResponse<String> loadUrlListImages() throws IOException {
         Request.Builder builder = new Request.Builder();
         Request request = builder
                 .url(ConstantsWeb.URL_LIST_PICTURE_LINKS)
                 .build();
         Response response = executeRequest(request);
-        if(error)
-            return new ArrayList<>();
+        if(response.code() < 200 || response.code() >= 300) {
+            return new ApiListResponse<String>(ApiListResponse.Result.ERROR, null);
+        }
 
         String json = response.body().string();
 
         LinksMapper linksFactory = JsonLinksMapper.getInstance();
         List<String> linksList = linksFactory.parseJsonLinks(json);
 
-        return linksList;
-    }
-
-    private byte[] loadImageAsByteArray(String urlLink) throws IOException {
-        byte[] imageBytes = new byte[1];
-        if(urlLink == null || urlLink.length() == 0) {
-            return imageBytes;
-        }
-        Request.Builder builder = new Request.Builder();
-        Request request = builder
-                .url(urlLink)
-                .build();
-        Response response = executeRequest(request);
-        if(error)
-            return imageBytes;
-
-        imageBytes = response.body().bytes();
-        return imageBytes;
+        return new ApiListResponse<String>(ApiListResponse.Result.SUCCESS, linksList);
     }
 
     private List<User> uniteUserAndLinks(List<User> users, List<String> links) {
@@ -130,12 +123,20 @@ public class HttpUsersRepository implements UserRepository {
     private Response executeRequest(Request request) throws IOException {
         Call call = httpClient.newCall(request);
         Response response = call.execute();
-        int code = response.code();
-        error = (code < 200 || code > 299);
-        if(error) {
-            codeError = code;
-        }
         return response;
     }
 
+    private static class ApiListResponse<T> {
+        public final Result result;
+        public final List<T> list;
+
+        public ApiListResponse(Result result, List<T> list) {
+            this.result = result;
+            this.list = list;
+        }
+
+        enum Result {
+            SUCCESS, ERROR
+        };
+    };
 }
