@@ -84,8 +84,6 @@ public class ImplDetailsUserVM implements IDetailsUserVM, IDetailsScreenActionLi
     }
 
     // IDetailsScreenActionListener
-
-
     @Override
     public void onDestroy() {
         unregitrateVMListener();

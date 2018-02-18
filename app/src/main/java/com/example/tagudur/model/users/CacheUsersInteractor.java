@@ -48,9 +48,7 @@ public class CacheUsersInteractor implements UsersInteractor {
         if(!isUpdateProgress && users.size() > 0) {
             changeDataListener.onDataChanged(users);
         } else {
-            if(!isUpdateProgress) {
-                updateData();
-            }
+            updateData();
         }
         return id;
     }
@@ -72,9 +70,7 @@ public class CacheUsersInteractor implements UsersInteractor {
         if(!isUpdateProgress && users.size() > 0) {
             signalOnUpdatedData(changeUserListener);
         } else {
-            if(!isUpdateProgress) {
-                updateData();
-            }
+            updateData();
         }
         return id;
     }

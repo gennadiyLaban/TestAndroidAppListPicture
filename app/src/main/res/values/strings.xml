@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TestListPictureApp</string>
     <string name="btn_update_list_act_text">Update</string>
+    <string name="btn_update">Update</string>
 </resources>

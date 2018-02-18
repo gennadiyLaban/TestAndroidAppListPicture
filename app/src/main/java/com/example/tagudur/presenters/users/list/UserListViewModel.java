@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 
 public class UserListViewModel implements IUsersScreenVM, IUsersScreenActionListener {
     private int idDataListener;
-    private UsersInteractor coreModel;
+    private UsersInteractor usersInteractor;
     private UserDataConverter converter;
 
     private List<UserVM> usersVM;
@@ -30,12 +30,12 @@ public class UserListViewModel implements IUsersScreenVM, IUsersScreenActionList
     private ExecutorService executor = Executors.newCachedThreadPool();
 
     public UserListViewModel(UsersInteractor model) {
-        this.coreModel = model;
+        this.usersInteractor = model;
         this.usersVM = new ArrayList<>();
         this.converter = new UserConverter();
 
         isUpdateProcess = true;
-        this.idDataListener = coreModel.bindChangeUserListener(new ChangeListUserListener() {
+        this.idDataListener = usersInteractor.bindChangeUserListener(new ChangeListUserListener() {
             @Override
             public void onDataChanged(final List<User> users) {
                 executor.submit(new Runnable() {
@@ -87,6 +87,11 @@ public class UserListViewModel implements IUsersScreenVM, IUsersScreenActionList
     @Override
     public void unregistrateOpenDetailsListener() {
         this.openDetailsListener = null;
+    }
+
+    @Override
+    public void update() {
+        usersInteractor.updateData();
     }
 
     // IUsersScreenActionListener

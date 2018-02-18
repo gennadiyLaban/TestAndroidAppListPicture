@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tagudur.ui.application.VMRepository;
@@ -26,24 +28,30 @@ public class ListItemsActivity extends Activity {
     private RecyclerView itemList;
     private ViewModelListAdapter adapter;
     private IUsersScreenActionListener actionListener;
-    private VMRepository vmRepository;
+    private IUsersScreenVM screenVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liast_items);
-        initializeVMRepository();
+        initializeVM();
 
         itemList = (RecyclerView)findViewById(R.id.rv_list_items);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         itemList.setLayoutManager(llm);
+
+        Button updateBtn = findViewById(R.id.btn_update_list_items);
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                screenVM.update();
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        IUsersScreenVM screenVM = vmRepository.getUsersScreenVM();
         actionListener = screenVM.getActionListener();
         adapter = initializeAdapter(new ArrayList<UserVM>(), actionListener);
 
@@ -57,8 +65,8 @@ public class ListItemsActivity extends Activity {
         actionListener.onStop();
     }
 
-    private void initializeVMRepository() {
-        vmRepository = (VMRepository) getApplication();
+    private void initializeVM() {
+        screenVM = ((VMRepository) getApplication()).getUsersScreenVM();
     }
 
     private ViewModelListAdapter initializeAdapter(List<UserVM> userList,
