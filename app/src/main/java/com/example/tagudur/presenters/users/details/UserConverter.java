@@ -1,9 +1,6 @@
 package com.example.tagudur.presenters.users.details;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.example.tagudur.model.usercase.User;
+import com.example.tagudur.model.users.User;
 import com.example.tagudur.presenters.users.UserVM;
 
 /**

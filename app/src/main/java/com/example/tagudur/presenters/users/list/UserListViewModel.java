@@ -2,10 +2,10 @@ package com.example.tagudur.presenters.users.list;
 
 import android.util.Log;
 
-import com.example.tagudur.model.usercase.UsersInteractor;
-import com.example.tagudur.model.usercase.ErrorMassage;
-import com.example.tagudur.model.usercase.User;
-import com.example.tagudur.model.usercase.ChangeListUserListener;
+import com.example.tagudur.model.users.UsersInteractor;
+import com.example.tagudur.model.users.ErrorMassage;
+import com.example.tagudur.model.users.User;
+import com.example.tagudur.model.users.ChangeListUserListener;
 import com.example.tagudur.presenters.users.UserVM;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
-package com.example.tagudur.model.http;
+package com.example.tagudur.data.http;
 
-import com.example.tagudur.model.usercase.User;
+import com.example.tagudur.model.users.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

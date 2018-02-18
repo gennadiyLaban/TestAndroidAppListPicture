@@ -1,4 +1,4 @@
-package com.example.tagudur.model.usercase;
+package com.example.tagudur.model.users;
 
 /**
  * Created by Tagudur on 15.02.2018.

@@ -1,8 +1,8 @@
-package com.example.tagudur.model.http;
+package com.example.tagudur.data.http;
 
-import com.example.tagudur.model.usercase.GetUserCallback;
-import com.example.tagudur.model.usercase.UserRepository;
-import com.example.tagudur.model.usercase.User;
+import com.example.tagudur.model.users.GetUserCallback;
+import com.example.tagudur.model.users.UserRepository;
+import com.example.tagudur.model.users.User;
 
 import java.io.IOException;
 import java.util.ArrayList;

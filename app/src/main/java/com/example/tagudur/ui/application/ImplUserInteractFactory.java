@@ -1,8 +1,8 @@
 package com.example.tagudur.ui.application;
 
-import com.example.tagudur.model.usercase.CacheUsersInteractor;
-import com.example.tagudur.model.usercase.UsersInteractor;
-import com.example.tagudur.model.http.HttpUsersRepository;
+import com.example.tagudur.model.users.CacheUsersInteractor;
+import com.example.tagudur.model.users.UsersInteractor;
+import com.example.tagudur.data.http.HttpUsersRepository;
 
 /**
  * Created by Tagudur on 16.02.2018.

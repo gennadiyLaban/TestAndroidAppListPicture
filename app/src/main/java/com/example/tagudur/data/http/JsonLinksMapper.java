@@ -1,4 +1,4 @@
-package com.example.tagudur.model.http;
+package com.example.tagudur.data.http;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

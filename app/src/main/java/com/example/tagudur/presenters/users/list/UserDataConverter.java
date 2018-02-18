@@ -1,6 +1,6 @@
 package com.example.tagudur.presenters.users.list;
 
-import com.example.tagudur.model.usercase.User;
+import com.example.tagudur.model.users.User;
 import com.example.tagudur.presenters.users.UserVM;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.tagudur.model.http;
+package com.example.tagudur.data.http;
 
 /**
  * Created by Tagudur on 14.02.2018.
