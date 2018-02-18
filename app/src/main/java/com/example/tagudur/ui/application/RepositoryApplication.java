@@ -3,8 +3,8 @@ package com.example.tagudur.ui.application;
 import android.app.Application;
 
 import com.example.tagudur.model.usercase.UsersInteractor;
-import com.example.tagudur.presenters.details.IDetailsUserVM;
-import com.example.tagudur.presenters.users.IUsersScreenVM;
+import com.example.tagudur.presenters.users.details.IDetailsUserVM;
+import com.example.tagudur.presenters.users.list.IUsersScreenVM;
 
 /**
  * Created by Tagudur on 15.02.2018.

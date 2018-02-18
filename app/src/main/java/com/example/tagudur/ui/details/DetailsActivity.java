@@ -7,11 +7,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tagudur.ui.application.VMRepository;
-import com.example.tagudur.presenters.details.IDetailsUserVM;
-import com.example.tagudur.presenters.entitiyes.PresentUser;
-import com.example.tagudur.presenters.details.IDetailsScreenActionListener;
-import com.example.tagudur.presenters.details.IDetailsScreenVMListeners;
-import com.example.tagudur.presenters.utils.IConstantsVM;
+import com.example.tagudur.presenters.users.details.IDetailsUserVM;
+import com.example.tagudur.presenters.users.UserVM;
+import com.example.tagudur.presenters.users.details.IDetailsScreenActionListener;
+import com.example.tagudur.presenters.users.details.IDetailsScreenVMListeners;
+import com.example.tagudur.presenters.utils.ConstantsVM;
 import com.example.tagudur.testlistpictureapp.R;
 
 public class DetailsActivity extends Activity {
@@ -29,7 +29,7 @@ public class DetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        user_id = getIntent().getIntExtra(IConstantsVM.USER_ID_EXTRA, -1);
+        user_id = getIntent().getIntExtra(ConstantsVM.USER_ID_EXTRA, -1);
         if(user_id == -1) {
             this.finish();
         }
@@ -64,7 +64,7 @@ public class DetailsActivity extends Activity {
     private void registrateDetailsVMListener(IDetailsUserVM detailsUserVM) {
         detailsUserVM.registrateVMlListeners(new IDetailsScreenVMListeners() {
             @Override
-            public void onDataChanged(PresentUser user) {
+            public void onDataChanged(UserVM user) {
                 imageView.setImageBitmap(user.getPicture());
                 name.setText(user.getLastName() + " " + user.getFirstName());
                 url.setText(user.getUrlPicture());

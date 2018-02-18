@@ -1,29 +1,26 @@
-package com.example.tagudur.presenters.entitiyes;
-
-import android.graphics.Bitmap;
+package com.example.tagudur.model.usercase;
 
 /**
- * Created by Tagudur on 15.02.2018.
+ * Created by Tagudur on 14.02.2018.
  */
 
-public class PresentUser {
+public class User {
 
     private int id;
     private String firstName;
     private String lastName;
 
     private String urlPicture;
-    private Bitmap picture;
+    private byte[] picture;
 
 
-    public PresentUser(int id, String firstName,
-                       String lastName, String urlPicture, Bitmap picture) {
+    public User(int id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
 
-        this.urlPicture = urlPicture;
-        this.picture = picture;
+        this.urlPicture = "";
+        this.picture = new byte[1];
     }
 
     public int getId() {
@@ -58,11 +55,11 @@ public class PresentUser {
         this.urlPicture = urlPicture;
     }
 
-    public Bitmap getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(Bitmap picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 }

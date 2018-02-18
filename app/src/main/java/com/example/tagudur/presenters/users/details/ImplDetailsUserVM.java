@@ -1,34 +1,31 @@
-package com.example.tagudur.presenters.details;
+package com.example.tagudur.presenters.users.details;
 
 import android.util.Log;
 
 import com.example.tagudur.model.usercase.ChangeUserListener;
 import com.example.tagudur.model.usercase.UsersInteractor;
 import com.example.tagudur.model.usercase.ErrorMassage;
-import com.example.tagudur.model.entityes.User;
-import com.example.tagudur.presenters.utils.IUserDataConverter;
-import com.example.tagudur.presenters.entitiyes.PresentUser;
-import com.example.tagudur.presenters.utils.UserDataConverter;
+import com.example.tagudur.model.usercase.User;
+import com.example.tagudur.presenters.users.UserVM;
 
 /**
  * Created by Tagudur on 17.02.2018.
  */
 
-public class DetailsUserVM implements IDetailsUserVM, IDetailsScreenActionListener{
-    private int idDataListener;
+public class ImplDetailsUserVM implements IDetailsUserVM, IDetailsScreenActionListener{
     private UsersInteractor coreModel;
-    private IUserDataConverter converter;
+    private UserDataConverter converter;
 
     private int userId;
-    private PresentUser userVM;
+    private UserVM userVM;
 
     private IDetailsScreenVMListeners dataChangeListener;
 
     private boolean isUpdateProcess;
 
-    public DetailsUserVM(UsersInteractor coreModel, final int user_id) {
+    public ImplDetailsUserVM(UsersInteractor coreModel, final int user_id) {
         this.coreModel = coreModel;
-        this.converter = new UserDataConverter();
+        this.converter = new UserConverter();
         this.userId = user_id;
 
         isUpdateProcess = true;
@@ -47,7 +44,7 @@ public class DetailsUserVM implements IDetailsUserVM, IDetailsScreenActionListen
 
             @Override
             public void onFailed(ErrorMassage massage) {
-                Log.d("ListUserViewModel", massage.getMassage());
+                Log.d("UserListViewModel", massage.getMassage());
                 isUpdateProcess = false;
                 notifyDataFailed(massage.getMassage());
             }
@@ -56,8 +53,6 @@ public class DetailsUserVM implements IDetailsUserVM, IDetailsScreenActionListen
     }
 
     // IDetailsUserVM
-
-
     @Override
     public int getUserId() {
         return userId;

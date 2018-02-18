@@ -1,6 +1,6 @@
 package com.example.tagudur.model.http;
 
-import com.example.tagudur.model.entityes.User;
+import com.example.tagudur.model.usercase.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Tagudur on 14.02.2018.
  */
 
-public class JsonUserFactory implements UserFactory {
+public class JsonUserMapper implements UserMapper {
 
     @Override
     public List<User> parseJsonUsersData(String json) {
@@ -34,7 +34,7 @@ public class JsonUserFactory implements UserFactory {
         return users;
     }
 
-    public static UserFactory getInstance() {
-        return new JsonUserFactory();
+    public static UserMapper getInstance() {
+        return new JsonUserMapper();
     }
 }

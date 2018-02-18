@@ -1,4 +1,4 @@
-package com.example.tagudur.presenters.details;
+package com.example.tagudur.presenters.users.details;
 
 /**
  * Created by Tagudur on 17.02.2018.

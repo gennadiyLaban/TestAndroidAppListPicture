@@ -1,7 +1,5 @@
 package com.example.tagudur.model.usercase;
 
-import com.example.tagudur.model.entityes.User;
-
 import java.util.List;
 
 /**

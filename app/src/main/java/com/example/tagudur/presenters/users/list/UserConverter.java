@@ -1,0 +1,36 @@
+package com.example.tagudur.presenters.users.list;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.example.tagudur.model.usercase.User;
+import com.example.tagudur.presenters.users.UserVM;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Tagudur on 15.02.2018.
+ */
+
+public class UserConverter implements UserDataConverter {
+
+    @Override
+    public List<UserVM> convertUserDataList(List<User> users) {
+        List<UserVM> userVMlList = new ArrayList<>(users.size() + 1);
+        for (User user: users) {
+            UserVM userVM = convertUserData(user);
+            userVMlList.add(userVM);
+        }
+        return userVMlList;
+    }
+
+    @Override
+    public UserVM convertUserData(User user) {
+        Bitmap picture = BitmapFactory.decodeByteArray(user.getPicture(), 0,
+                user.getPicture().length);
+        UserVM userVM = new UserVM(user.getId(), user.getFirstName(), user.getLastName(),
+                user.getUrlPicture(), picture);
+        return userVM;
+    }
+}

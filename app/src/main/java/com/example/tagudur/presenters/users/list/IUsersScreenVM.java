@@ -1,6 +1,6 @@
-package com.example.tagudur.presenters.users;
+package com.example.tagudur.presenters.users.list;
 
-import com.example.tagudur.presenters.entitiyes.PresentUser;
+import com.example.tagudur.presenters.users.UserVM;
 
 import java.util.List;
 
@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface IUsersScreenVM {
 
-    public List<PresentUser> getListUsers();
+    public List<UserVM> getListUsers();
 
     public void registrateVMlListeners(IUsersScreenVMlListeners listener);
 
     public void unregitrateVMListener();
 
-    public void registrateOpenDetailsListener(IListItemsOpenDetailsActivityListener listener);
+    public void registrateOpenDetailsListener(OpenDetailsListener listener);
 
     public void unregistrateOpenDetailsListener();
 

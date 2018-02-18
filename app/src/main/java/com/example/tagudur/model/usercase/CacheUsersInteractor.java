@@ -4,8 +4,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.tagudur.model.entityes.User;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

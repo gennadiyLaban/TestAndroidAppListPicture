@@ -9,12 +9,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.tagudur.ui.application.VMRepository;
-import com.example.tagudur.presenters.users.IUsersScreenVM;
-import com.example.tagudur.presenters.entitiyes.PresentUser;
-import com.example.tagudur.presenters.users.IUsersScreenActionListener;
-import com.example.tagudur.presenters.users.IListItemsOpenDetailsActivityListener;
-import com.example.tagudur.presenters.users.IUsersScreenVMlListeners;
-import com.example.tagudur.presenters.utils.IConstantsVM;
+import com.example.tagudur.presenters.users.list.IUsersScreenVM;
+import com.example.tagudur.presenters.users.UserVM;
+import com.example.tagudur.presenters.users.list.IUsersScreenActionListener;
+import com.example.tagudur.presenters.users.list.OpenDetailsListener;
+import com.example.tagudur.presenters.users.list.IUsersScreenVMlListeners;
+import com.example.tagudur.presenters.utils.ConstantsVM;
 import com.example.tagudur.testlistpictureapp.R;
 import com.example.tagudur.ui.details.DetailsActivity;
 
@@ -45,7 +45,7 @@ public class ListItemsActivity extends Activity {
 
         IUsersScreenVM screenVM = vmRepository.getListUserVM();
         actionListener = screenVM.getActionListener();
-        adapter = initializeAdapter(new ArrayList<PresentUser>(), actionListener);
+        adapter = initializeAdapter(new ArrayList<UserVM>(), actionListener);
 
         registrateOpenDetailsListener(screenVM);
         registrateUsersScreenVMlListeners(screenVM);
@@ -61,7 +61,7 @@ public class ListItemsActivity extends Activity {
         vmRepository = (VMRepository) getApplication();
     }
 
-    private ViewModelListAdapter initializeAdapter(List<PresentUser> userList,
+    private ViewModelListAdapter initializeAdapter(List<UserVM> userList,
                                                    final IUsersScreenActionListener listener) {
         ViewModelListAdapter adapter =
                 new ViewModelListAdapter(userList, new ViewModelListAdapter.OnItemClickListener() {
@@ -74,12 +74,12 @@ public class ListItemsActivity extends Activity {
     }
 
     private void registrateOpenDetailsListener(IUsersScreenVM screenVM) {
-        screenVM.registrateOpenDetailsListener(new IListItemsOpenDetailsActivityListener() {
+        screenVM.registrateOpenDetailsListener(new OpenDetailsListener() {
             @Override
             public void onOpenDetailActivity(int user_id) {
                 Log.d("ListItemsActivity", "onOpenDetailActivity:user_id:" + user_id);
                 Intent intent = new Intent(ListItemsActivity.this, DetailsActivity.class);
-                intent.putExtra(IConstantsVM.USER_ID_EXTRA, user_id);
+                intent.putExtra(ConstantsVM.USER_ID_EXTRA, user_id);
                 startActivity(intent);
             }
         });
@@ -88,7 +88,7 @@ public class ListItemsActivity extends Activity {
     private void registrateUsersScreenVMlListeners(IUsersScreenVM screenVM) {
         screenVM.registrateVMlListeners(new IUsersScreenVMlListeners() {
             @Override
-            public void onDataChanged(List<PresentUser> users) {
+            public void onDataChanged(List<UserVM> users) {
                 adapter.setData(users);
                 itemList.setAdapter(adapter);
             }

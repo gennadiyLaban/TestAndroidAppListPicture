@@ -1,7 +1,5 @@
 package com.example.tagudur.model.usercase;
 
-import com.example.tagudur.model.entityes.User;
-
 /**
  * Created by Tagudur on 16.02.2018.
  */

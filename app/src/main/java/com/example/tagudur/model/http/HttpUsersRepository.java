@@ -2,7 +2,7 @@ package com.example.tagudur.model.http;
 
 import com.example.tagudur.model.usercase.GetUserCallback;
 import com.example.tagudur.model.usercase.UserRepository;
-import com.example.tagudur.model.entityes.User;
+import com.example.tagudur.model.usercase.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import okhttp3.Response;
  * Created by Tagudur on 14.02.2018.
  */
 
-public class HttpLoaders implements UserRepository {
+public class HttpUsersRepository implements UserRepository {
     private OkHttpClient httpClient;
 
     private boolean error = false;
@@ -26,7 +26,9 @@ public class HttpLoaders implements UserRepository {
 
     @Override
     public void getUserData(GetUserCallback listener) {
-        httpClient = new OkHttpClient();
+        if(httpClient == null) {
+            httpClient = new OkHttpClient();
+        }
         error = false;
         codeError = -1;
 
@@ -62,7 +64,7 @@ public class HttpLoaders implements UserRepository {
     private List<User> loadUserData() throws IOException {
         List<User> users = new ArrayList<>(ConstantsWeb.DEFUALT_COUNT_OF_TOTAL_USERS);
         Request.Builder builder = new Request.Builder();
-        UserFactory userFactory = JsonUserFactory.getInstance();
+        UserMapper userFactory = JsonUserMapper.getInstance();
 
         for(int i = 1; i <= ConstantsWeb.COUNT_OF_PAGE_USERS_DATA; i++) {
             Request request = builder.url(ConstantsWeb.URL_LIST_USER_DATA_ON_PAGE_N + i)
@@ -91,7 +93,7 @@ public class HttpLoaders implements UserRepository {
 
         String json = response.body().string();
 
-        LinksFactory linksFactory = JsonLinksFactory.getInstance();
+        LinksMapper linksFactory = JsonLinksMapper.getInstance();
         List<String> linksList = linksFactory.parseJsonLinks(json);
 
         return linksList;

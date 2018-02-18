@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Tagudur on 14.02.2018.
  */
 
-public class JsonLinksFactory implements LinksFactory {
+public class JsonLinksMapper implements LinksMapper {
 
     @Override
     public List<String> parseJsonLinks(String json) {
@@ -27,7 +27,7 @@ public class JsonLinksFactory implements LinksFactory {
         return linkList;
     }
 
-    public static LinksFactory getInstance() {
-        return new JsonLinksFactory();
+    public static LinksMapper getInstance() {
+        return new JsonLinksMapper();
     }
 }

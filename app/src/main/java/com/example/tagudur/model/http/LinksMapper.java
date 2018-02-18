@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Tagudur on 14.02.2018.
  */
 
-public interface LinksFactory {
+public interface LinksMapper {
 
     public List<String> parseJsonLinks(String json);
 

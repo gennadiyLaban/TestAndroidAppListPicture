@@ -1,7 +1,7 @@
 package com.example.tagudur.ui.application;
 
-import com.example.tagudur.presenters.details.IDetailsUserVM;
-import com.example.tagudur.presenters.users.IUsersScreenVM;
+import com.example.tagudur.presenters.users.details.IDetailsUserVM;
+import com.example.tagudur.presenters.users.list.IUsersScreenVM;
 
 /**
  * Created by Tagudur on 16.02.2018.

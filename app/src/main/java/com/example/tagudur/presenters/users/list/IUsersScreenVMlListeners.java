@@ -1,6 +1,6 @@
-package com.example.tagudur.presenters.users;
+package com.example.tagudur.presenters.users.list;
 
-import com.example.tagudur.presenters.entitiyes.PresentUser;
+import com.example.tagudur.presenters.users.UserVM;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IUsersScreenVMlListeners {
 
-    public void onDataChanged(List<PresentUser> users);
+    public void onDataChanged(List<UserVM> users);
 
     public void onDataFailed(String message);
 

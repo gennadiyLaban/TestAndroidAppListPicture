@@ -1,14 +1,12 @@
-package com.example.tagudur.presenters.users;
+package com.example.tagudur.presenters.users.list;
 
 import android.util.Log;
 
 import com.example.tagudur.model.usercase.UsersInteractor;
 import com.example.tagudur.model.usercase.ErrorMassage;
-import com.example.tagudur.model.entityes.User;
+import com.example.tagudur.model.usercase.User;
 import com.example.tagudur.model.usercase.ChangeListUserListener;
-import com.example.tagudur.presenters.utils.IUserDataConverter;
-import com.example.tagudur.presenters.entitiyes.PresentUser;
-import com.example.tagudur.presenters.utils.UserDataConverter;
+import com.example.tagudur.presenters.users.UserVM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +15,21 @@ import java.util.List;
  * Created by Tagudur on 15.02.2018.
  */
 
-public class ListUserViewModel implements IUsersScreenVM, IUsersScreenActionListener {
+public class UserListViewModel implements IUsersScreenVM, IUsersScreenActionListener {
     private int idDataListener;
     private UsersInteractor coreModel;
-    private IUserDataConverter converter;
+    private UserDataConverter converter;
 
-    private List<PresentUser> usersVM;
+    private List<UserVM> usersVM;
     private IUsersScreenVMlListeners dataChangeListener;
-    private IListItemsOpenDetailsActivityListener openDetailsListener;
+    private OpenDetailsListener openDetailsListener;
 
     private boolean isUpdateProcess;
 
-    public ListUserViewModel(UsersInteractor model) {
+    public UserListViewModel(UsersInteractor model) {
         this.coreModel = model;
         this.usersVM = new ArrayList<>();
-        this.converter = new UserDataConverter();
+        this.converter = new UserConverter();
 
         isUpdateProcess = true;
         // todo: move out from constructor
@@ -46,7 +44,7 @@ public class ListUserViewModel implements IUsersScreenVM, IUsersScreenActionList
 
             @Override
             public void onFailed(ErrorMassage massage) {
-                Log.d("ListUserViewModel", massage.getMassage());
+                Log.d("UserListViewModel", massage.getMassage());
                 isUpdateProcess = false;
                 notifyAllListenersDataFailed(massage.getMassage());
             }
@@ -55,7 +53,7 @@ public class ListUserViewModel implements IUsersScreenVM, IUsersScreenActionList
 
     // IUsersScreenVM
     @Override
-    public List<PresentUser> getListUsers() {
+    public List<UserVM> getListUsers() {
         return usersVM;
     }
 
@@ -78,7 +76,7 @@ public class ListUserViewModel implements IUsersScreenVM, IUsersScreenActionList
     }
 
     @Override
-    public void registrateOpenDetailsListener(IListItemsOpenDetailsActivityListener listener) {
+    public void registrateOpenDetailsListener(OpenDetailsListener listener) {
         this.openDetailsListener = listener;
     }
 

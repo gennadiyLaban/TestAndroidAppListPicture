@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.tagudur.presenters.entitiyes.PresentUser;
+import com.example.tagudur.presenters.users.UserVM;
 import com.example.tagudur.testlistpictureapp.R;
 
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.List;
 public class ViewModelListAdapter extends RecyclerView.Adapter<ViewModelListAdapter.UserViewHolder> {
 
     private OnItemClickListener listener;
-    private List<PresentUser> usersList;
+    private List<UserVM> usersList;
 
-    public ViewModelListAdapter(List<PresentUser> usersVMList, OnItemClickListener listener) {
+    public ViewModelListAdapter(List<UserVM> usersVMList, OnItemClickListener listener) {
         this.usersList = usersVMList;
         this.listener = listener;
     }
@@ -35,7 +35,7 @@ public class ViewModelListAdapter extends RecyclerView.Adapter<ViewModelListAdap
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, final int position) {
-        final PresentUser user = usersList.get(position);
+        final UserVM user = usersList.get(position);
         holder.name.setText(user.getFirstName() + " " + user.getLastName());
         holder.url.setText(user.getUrlPicture());
         holder.personPhoto.setImageBitmap(user.getPicture());
@@ -54,7 +54,7 @@ public class ViewModelListAdapter extends RecyclerView.Adapter<ViewModelListAdap
 
 
 
-    public void setData(List<PresentUser> users) {
+    public void setData(List<UserVM> users) {
         this.usersList = users;
     }
 

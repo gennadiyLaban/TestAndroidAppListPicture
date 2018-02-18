@@ -1,7 +1,7 @@
 package com.example.tagudur.ui.application;
 
 import com.example.tagudur.model.usercase.UsersInteractor;
-import com.example.tagudur.presenters.details.IDetailsUserVM;
+import com.example.tagudur.presenters.users.details.IDetailsUserVM;
 
 /**
  * Created by Tagudur on 17.02.2018.
