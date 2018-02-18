@@ -85,9 +85,7 @@ public class CacheUsersInteractor implements UsersInteractor {
         if(isUpdateProgress) {
             return;
         }
-
-        Handler handler = getSignalHandler();
-        final GetUserCallback callback = getDataCallback(handler);
+        final GetUserCallback callback = getDataCallback();
 
         isUpdateProgress = true;
         executor.submit(new Runnable() {
@@ -155,27 +153,29 @@ public class CacheUsersInteractor implements UsersInteractor {
                 isUpdateProgress = false;
                 switch (msg.what) {
                     case ConstantsModel.STATUS_OK:
-                        signalUpdatedData();
+                        ;
                         break;
                     case ConstantsModel.STATUS_FAIL:
-                        signalFailUpdateData();
+
                         break;
                 }
             }
         };
     }
 
-    private GetUserCallback getDataCallback(final Handler signalHandler) {
+    private GetUserCallback getDataCallback() {
         return new GetUserCallback() {
             @Override
             public void onLoadData(List<User> userList) {
+                isUpdateProgress = false;
                 users = userList;
-                signalHandler.sendEmptyMessage(ConstantsModel.STATUS_OK);
+                signalUpdatedData();
             }
 
             @Override
             public void onError() {
-                signalHandler.sendEmptyMessage(ConstantsModel.STATUS_FAIL);
+                isUpdateProgress = false;
+                signalFailUpdateData();
             }
         };
     }
