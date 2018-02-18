@@ -11,7 +11,6 @@ public class User {
     private String lastName;
 
     private String urlPicture;
-    private byte[] picture;
 
 
     public User(int id, String firstName, String lastName) {
@@ -20,7 +19,6 @@ public class User {
         this.lastName = lastName;
 
         this.urlPicture = "";
-        this.picture = new byte[1];
     }
 
     public int getId() {
@@ -53,13 +51,5 @@ public class User {
 
     public void setUrlPicture(String urlPicture) {
         this.urlPicture = urlPicture;
-    }
-
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
     }
 }

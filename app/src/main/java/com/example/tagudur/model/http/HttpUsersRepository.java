@@ -47,7 +47,6 @@ public class HttpUsersRepository implements UserRepository {
             }
 
             userList = uniteUserAndLinks(userList, linksList);
-            userList = loadImageData(userList);
             if(error){
                 listener.onError();
                 return;
@@ -97,18 +96,6 @@ public class HttpUsersRepository implements UserRepository {
         List<String> linksList = linksFactory.parseJsonLinks(json);
 
         return linksList;
-    }
-
-    private List<User> loadImageData(List<User> users) throws IOException {
-        for (User user: users) {
-            byte[] imageBytes = loadImageAsByteArray(user.getUrlPicture());
-            user.setPicture(imageBytes);
-
-            if(error)
-                break;
-        }
-
-        return users;
     }
 
     private byte[] loadImageAsByteArray(String urlLink) throws IOException {

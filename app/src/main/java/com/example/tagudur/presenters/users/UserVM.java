@@ -13,17 +13,15 @@ public class UserVM {
     private final String lastName;
 
     private final String urlPicture;
-    private final Bitmap picture;
 
 
     public UserVM(int id, String firstName,
-                  String lastName, String urlPicture, Bitmap picture) {
+                  String lastName, String urlPicture) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
 
         this.urlPicture = urlPicture;
-        this.picture = picture;
     }
 
     public int getId() {
@@ -40,10 +38,6 @@ public class UserVM {
 
     public String getUrlPicture() {
         return urlPicture;
-    }
-
-    public Bitmap getPicture() {
-        return picture;
     }
 
 }

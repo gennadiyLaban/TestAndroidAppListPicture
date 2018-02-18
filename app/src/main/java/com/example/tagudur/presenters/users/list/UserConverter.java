@@ -27,10 +27,8 @@ public class UserConverter implements UserDataConverter {
 
     @Override
     public UserVM convertUserData(User user) {
-        Bitmap picture = BitmapFactory.decodeByteArray(user.getPicture(), 0,
-                user.getPicture().length);
         UserVM userVM = new UserVM(user.getId(), user.getFirstName(), user.getLastName(),
-                user.getUrlPicture(), picture);
+                user.getUrlPicture());
         return userVM;
     }
 }

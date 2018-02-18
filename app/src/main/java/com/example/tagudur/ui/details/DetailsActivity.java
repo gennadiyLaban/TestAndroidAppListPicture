@@ -13,6 +13,7 @@ import com.example.tagudur.presenters.users.details.IDetailsScreenActionListener
 import com.example.tagudur.presenters.users.details.IDetailsScreenVMListeners;
 import com.example.tagudur.presenters.utils.ConstantsVM;
 import com.example.tagudur.testlistpictureapp.R;
+import com.squareup.picasso.Picasso;
 
 public class DetailsActivity extends Activity {
 
@@ -65,7 +66,8 @@ public class DetailsActivity extends Activity {
         detailsUserVM.registrateVMlListeners(new IDetailsScreenVMListeners() {
             @Override
             public void onDataChanged(UserVM user) {
-                imageView.setImageBitmap(user.getPicture());
+                Picasso.with(DetailsActivity.this).load(user.getUrlPicture())
+                        .placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(imageView);
                 name.setText(user.getLastName() + " " + user.getFirstName());
                 url.setText(user.getUrlPicture());
             }
