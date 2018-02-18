@@ -1,0 +1,13 @@
+package com.example.tagudur.ui.application;
+
+import com.example.tagudur.model.usercase.UsersInteractor;
+
+/**
+ * Created by Tagudur on 15.02.2018.
+ */
+
+public interface UserInteractFactory {
+
+    public UsersInteractor getInstanceModel();
+
+}
